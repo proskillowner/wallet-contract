@@ -27,7 +27,7 @@ contract WalletTest is Test {
     function setUp() public {
         vm.startPrank(owner);
 
-        wallet = new Wallet();
+        wallet = new Wallet(owner);
 
         usdt = new USDT();
 

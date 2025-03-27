@@ -1,23 +1,31 @@
 // SPDX-License-Identifier: Unlicensed
 pragma solidity ^0.8.0;
 
-import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
-contract Wallet is Ownable {
+contract Wallet {
+    address public owner;
     address public withdrawAddress;
     uint256 public withdrawTime;
     uint256 public lockPeriod;
 
     uint256 public constant MIN_LOCK_PERIOD = 1 days;
 
-    constructor() Ownable(msg.sender) {
-        withdrawAddress = address(msg.sender);
-        withdrawTime = block.timestamp;
+    constructor(address _owner) {
+        require(_owner != address(0));
+
+        owner = _owner;
+        withdrawAddress = address(0);
+        withdrawTime = 0;
         lockPeriod = MIN_LOCK_PERIOD;
     }
 
     receive() external payable {}
+
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Invalid owner");
+        _;
+    }
 
     modifier checkWithdraw() {
         require(withdrawAddress != address(0), "Invalid withdraw address");

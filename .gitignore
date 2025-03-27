@@ -9,4 +9,4 @@ broadcast/
 docs/
 
 # Dotenv file
-*.env
+.env.*

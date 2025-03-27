@@ -10,7 +10,9 @@ contract DeployScript is Script {
     function run() public {
         vm.startBroadcast();
 
-        Wallet wallet = new Wallet();
+        address owner = vm.envAddress("OWNER");
+
+        Wallet wallet = new Wallet(owner);
         console.log("Wallet address =>", address(wallet));
 
         vm.stopBroadcast();
